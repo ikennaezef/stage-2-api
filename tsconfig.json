@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		/* Language and Environment */
+		"target": "es2016" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
+		// "lib": [],                                        /* Specify a set of bundled library declaration files that describe the target runtime
+		/* Modules */
+		"module": "commonjs" /* Enable error reporting in type-checked JavaScript files. */,
+		"esModuleInterop": true,
+		"outDir": "./dist",
+		"forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
+
+		/* Type Checking */
+		"strict": true /* Enable all strict type-checking options. */,
+		// "noImplicitAny": true,                            /* Enable error re
+		"skipLibCheck": true /* Skip type checking all .d.ts files. */
+	}
+}
