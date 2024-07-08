@@ -4,9 +4,9 @@ import { server } from "..";
 describe("Authentication API Endpoints", () => {
 	let userID: any;
 	let newUser = {
-		firstName: "Test9 Firstname",
-		lastName: "Test9 Lastname",
-		email: "test9@mail.com",
+		firstName: "Test10 Firstname",
+		lastName: "Test10 Lastname",
+		email: "test10@mail.com",
 		password: "password123",
 		phone: "08604583",
 	};
