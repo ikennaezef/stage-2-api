@@ -17,10 +17,17 @@ const client_1 = require("@prisma/client");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const uuid_1 = require("uuid");
 const jwt_1 = require("../utils/jwt");
+const express_validator_1 = require("express-validator");
 const prisma = new client_1.PrismaClient();
 const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { firstName, lastName, email, password, phone } = req.body;
+        const errors = (0, express_validator_1.validationResult)(req);
+        if (!errors.isEmpty()) {
+            return res
+                .status(422)
+                .json({ status: "Bad Request", errors: errors.array() });
+        }
         if (!firstName || !lastName || !email || !password) {
             return res
                 .status(422)
@@ -28,9 +35,11 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         }
         const userExists = yield prisma.user.findFirst({ where: { email } });
         if (userExists) {
-            return res
-                .status(422)
-                .json({ message: "This email is already registered!" });
+            return res.status(400).json({
+                status: "Bad Request",
+                message: "Registration unsuccessful",
+                statusCode: 400,
+            });
         }
         const hashedPassword = yield bcrypt_1.default.hash(password, 10);
         const userId = (0, uuid_1.v4)();

@@ -22,7 +22,13 @@ app.get("/", (req, res) => {
 app.use("/", userRoutes_1.userRouter);
 app.use("/api/organisations", organisationRoutes_1.orgRouter);
 app.use("**", (req, res) => {
-    res.send("Route not found");
+    res
+        .status(400)
+        .json({
+        status: "Bad Request",
+        statusCode: 404,
+        message: "Route not found",
+    });
 });
 const server = app.listen(PORT, () => console.log(`APP STARTED ON PORT ${PORT}`));
 exports.server = server;
