@@ -20,7 +20,13 @@ app.use("/", userRouter);
 app.use("/api/organisations", orgRouter);
 
 app.use("**", (req: Request, res: Response) => {
-	res.send("Route not found");
+	res
+		.status(400)
+		.json({
+			status: "Bad Request",
+			statusCode: 404,
+			message: "Route not found",
+		});
 });
 
 const server = app.listen(PORT, () =>

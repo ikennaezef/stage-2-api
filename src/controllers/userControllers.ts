@@ -4,12 +4,19 @@ import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
 import { generateToken } from "../utils/jwt";
 import { ExtendedReq } from "../types";
+import { validationResult } from "express-validator";
 
 const prisma = new PrismaClient();
 
 const registerUser = async (req: Request, res: Response) => {
 	try {
 		const { firstName, lastName, email, password, phone } = req.body;
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			return res
+				.status(422)
+				.json({ status: "Bad Request", errors: errors.array() });
+		}
 		if (!firstName || !lastName || !email || !password) {
 			return res
 				.status(422)
@@ -17,9 +24,11 @@ const registerUser = async (req: Request, res: Response) => {
 		}
 		const userExists = await prisma.user.findFirst({ where: { email } });
 		if (userExists) {
-			return res
-				.status(422)
-				.json({ message: "This email is already registered!" });
+			return res.status(400).json({
+				status: "Bad Request",
+				message: "Registration unsuccessful",
+				statusCode: 400,
+			});
 		}
 
 		const hashedPassword = await bcrypt.hash(password, 10);
